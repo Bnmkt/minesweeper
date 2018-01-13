@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Démineur</title>
+	<link rel="stylesheet" href="./css/style.css">
+	<script type="text/javascript" src="js/demineur.js"></script>
+	<script type="text/javascript">
+		var game = new Demineur();
+
+		document.start = function() {
+			var x = document.querySelector("#nbrow").valueAsNumber,
+				y = document.querySelector("#nbcol").valueAsNumber,
+				n = document.querySelector("#nbbomb").valueAsNumber;
+			game.start(x, y, n);
+		}
+
+	</script>
+</head>
+
+<body>
+	<form id="gamebutton">
+		<input type="button" onclick="document.start()" id="start" value="Start">
+		<input type="button" onclick="game.pause()" id="pause" value="Pause">
+		<div>
+			<div>
+				<label for="nbcol">Nombre de colonnes</label>
+				<input type="number" value="10" required min="5" step="5" max="50" id="nbcol" placeholder="nb col">
+			</div>
+			<div>
+				<label for="nbrow">Nombre de rangées</label>
+				<input type="number" value="10" required min="5" step="5" max="50" id="nbrow" placeholder="nb row">
+			</div>
+			<div>
+				<label for="nbbomb">Nombre de bombes MAX</label>
+				<input type="number" value="20" step="5" required min="5" max="100" id="nbbomb" placeholder="nb bomb">
+			</div>
+		</div>
+		<div id="info">
+			<p id="bomb"></p>
+			<p id="x"></p>
+			<p id="y"></p>
+		</div>
+	</form>
+</body>
+
+</html>

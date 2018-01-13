@@ -1,0 +1,129 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+form#gamebutton {
+  height: 20vh;
+  background-color: darkgray;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+}
+
+form#gamebutton div {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  display: inline-block;
+}
+
+form#gamebutton div div {
+  display: block;
+}
+
+form#gamebutton input,
+form#gamebutton label {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  display: block;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-flow: 1;
+  flex-flow: 1;
+  width: 100%;
+  padding: .25em 0;
+  margin: 0;
+  border: 0;
+}
+
+form#gamebutton > input {
+  -webkit-box-flex: 2;
+  -ms-flex: 2;
+  flex: 2;
+  opacity: .8;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  color: wheat;
+  font-family: sans-serif;
+  font-weight: 700;
+  font-size: 4em;
+}
+
+form#gamebutton > input#start {
+  background-color: brown;
+}
+
+form#gamebutton > input#pause {
+  background-color: darkolivegreen;
+}
+
+form#gamebutton > input:hover {
+  opacity: 1;
+}
+
+table {
+  font-size: 16px;
+  height: 80vh;
+  border-spacing: 0;
+}
+
+table tr,
+table td, table {
+  padding: 0;
+  margin: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-flow: column nowrap;
+  flex-flow: column nowrap;
+  -ms-flex-preferred-size: 100%;
+  flex-basis: 100%;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  border: 1px solid black;
+}
+
+table tr {
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-flow: row nowrap;
+  flex-flow: row nowrap;
+  -ms-flex-preferred-size: 100%;
+  flex-basis: 100%;
+  -ms-flex-direction: row;
+  flex-direction: row;
+}
+
+table td {
+  -webkit-box-flex: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  -ms-flex-preferred-size: 0;
+  flex-basis: 0;
+  height: 100%;
+  text-align: center;
+  vertical-align: middle;
+}
+
+table td[data-bomb="true"][data-viewed="true"] {
+  background-color: chartreuse;
+}
+
+table td[data-bomb="false"][data-viewed="true"] {
+  background-color: bisque;
+}
+
+.unvisible table {
+  display: none;
+}
