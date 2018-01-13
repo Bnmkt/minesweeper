@@ -1,12 +1,12 @@
-var Demineur = function (nbCol, nbRow, maxBomb, element) {
-	let width = nbCol,
-		height = nbRow,
-		bombNumber = maxBomb,
+var Demineur = function (element) {
+	let width,
+		height,
+		maxBombs,
 		playing,
 		tab = [],
 		userTab = [],
-		container,
-		placedBomb;
+		placedBomb,
+		container = (element) ? document.querySelector(element) : document.querySelector("body");
 	this.getWidth = function () {
 		return width;
 	}
@@ -14,28 +14,22 @@ var Demineur = function (nbCol, nbRow, maxBomb, element) {
 		return height;
 	}
 	this.getBombNumber = function () {
-		return bombNumber;
+		return maxBombs;
 	}
 	this.getContainer = function () {
 		return container;
 	}
 	this.start = function (x, y, n) {
-		document.getElementById("start").value = "Restart";
-		console.log(x + " " + y + " " + n)
 		x = x ? x : width;
 		y = y ? y : height;
-		n = n ? n : bombNumber;
+		n = n ? n : maxBombs;
 		start(x, y, n);
 	}
 	this.pause = function () {
 		pause();
-		document.getElementById("pause").setAttribute("onclick", "game.resume()");
-		document.getElementById("pause").value = "Resume";
 	}
 	this.resume = function () {
 		resume();
-		document.getElementById("pause").setAttribute("onclick", "game.pause()");
-		document.getElementById("pause").value = "Pause";
 	}
 
 	function setWidth(w) {
@@ -47,34 +41,37 @@ var Demineur = function (nbCol, nbRow, maxBomb, element) {
 	}
 
 	function setBombsNumber(n) {
-		bombNumber = n ? parseInt(n, 10) : 10;
+		maxBombs = n ? parseInt(n, 10) : 10;
 	}
 
 	function start(x, y, n) {
-		container = (element) ? document.querySelector(element) : document.querySelector("body")
+		document.getElementById("start").value = "Restart";
 		setWidth(x);
 		setHeight(y);
 		setBombsNumber(n);
+		playing = true;
 		resume();
 		init();
 	}
 
 	function resume() {
+		document.getElementById("pause").setAttribute("onclick", "game.pause()");
+		document.getElementById("pause").value = "Pause";
 		container.classList.remove("unvisible");
 		playing = true;
 	}
 
 	function pause() {
+		document.getElementById("pause").setAttribute("onclick", "game.resume()");
+		document.getElementById("pause").value = "Resume";
 		container.classList.add("unvisible");
 		playing = false;
 	}
 
-	function setTabs(tabWidth, tabHeight) {
-		let width = tabWidth,
-			height = tabHeight;
+	function setTabs() {
 		for (let x = 0; x < width; x++) {
 			tab[x] = [];
-			userTab[x] = []
+			userTab[x] = [];
 			for (let y = 0; y < height; y++) {
 				tab[x][y] = " ";
 				userTab[x][y] = "X";
@@ -84,14 +81,16 @@ var Demineur = function (nbCol, nbRow, maxBomb, element) {
 
 	function setBombs() {
 		let nb = 0;
-		for (let b = 0; b < bombNumber; b++) {
+		for (let b = 0; b < maxBombs; b++) {
 			let bombPosX = random(0, width);
 			let bombPosY = random(0, height);
 			if (tab[bombPosX][bombPosY] != "x") {
-				for (let vx = 0; vx <= 2; vx++) {
-					for (let vy = 0; vy <= 2; vy++) {
-						let nx = bombPosX + (vx - 1);
-						let ny = bombPosY + (vy - 1);
+				nb++;
+				tab[bombPosX][bombPosY] = "x";
+				for (let vx = -1; vx <= 1; vx++) {
+					for (let vy = -1; vy <= 1; vy++) {
+						let nx = bombPosX + vx;
+						let ny = bombPosY + vy;
 						if (tab[nx]) {
 							if (tab[nx][ny]) {
 								if (tab[nx][ny] == " ") {
@@ -104,8 +103,6 @@ var Demineur = function (nbCol, nbRow, maxBomb, element) {
 						}
 					}
 				}
-				nb++;
-				tab[bombPosX][bombPosY] = "x";
 			}
 		}
 		placedBomb = nb;
@@ -122,7 +119,6 @@ var Demineur = function (nbCol, nbRow, maxBomb, element) {
 		} else {
 			table = document.createElement("table")
 			table.setAttribute("id", "game");
-			table.setAttribute("data-finish", playing);
 		}
 		let selectedTab = trueTab ? tab : userTab;
 		for (let x = 0; x < width; x++) {
@@ -134,7 +130,7 @@ var Demineur = function (nbCol, nbRow, maxBomb, element) {
 				cell.setAttribute("data-y", y);
 				cell.setAttribute("data-bomb", (tab[x][y] != "x") ? "true" : "false");
 				cell.setAttribute("data-viewed", selectedTab[x][y] != "X" ? true : false);
-				cell.innerText = (selectedTab[x][y] != "x") ? selectedTab[x][y] : "v";
+				cell.innerText = (selectedTab[x][y] != "x") ? selectedTab[x][y] : "x";
 				cell.addEventListener("click", checkBomb);
 				row.appendChild(cell);
 			}
@@ -172,7 +168,7 @@ var Demineur = function (nbCol, nbRow, maxBomb, element) {
 				let zy = ny + y
 				if (tab[zy]) {
 					if (tab[zy][zx]) {
-						if (tab[y + ny][zx] != "v") {
+						if (tab[y + ny][zx] != "x") {
 							if (userTab[y + ny][zx] == "X") {
 								userTab[zy][zx] = tab[zy][zx];
 							}
@@ -187,7 +183,7 @@ var Demineur = function (nbCol, nbRow, maxBomb, element) {
 		let x = e.currentTarget.getAttribute("data-x");
 		let y = e.currentTarget.getAttribute("data-y");
 		if (!playing) {
-			start(width, height, bombNumber);
+			start(width, height, maxBombs);
 		} else {
 			if (tab[x][y] == "x") {
 				playing = false;
@@ -204,7 +200,7 @@ var Demineur = function (nbCol, nbRow, maxBomb, element) {
 	function init() {
 		tab = [];
 		userTab = [];
-		setTabs(width, height);
+		setTabs();
 		setBombs()
 		displayTabs();
 		document.getElementById("x").innerText = width + " Rangée";

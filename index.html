@@ -6,17 +6,6 @@
 	<title>Démineur</title>
 	<link rel="stylesheet" href="./css/style.css">
 	<script type="text/javascript" src="js/demineur.js"></script>
-	<script type="text/javascript">
-		var game = new Demineur();
-
-		document.start = function() {
-			var x = document.querySelector("#nbrow").valueAsNumber,
-				y = document.querySelector("#nbcol").valueAsNumber,
-				n = document.querySelector("#nbbomb").valueAsNumber;
-			game.start(x, y, n);
-		}
-
-	</script>
 </head>
 
 <body>
@@ -43,6 +32,17 @@
 			<p id="y"></p>
 		</div>
 	</form>
+	<script type="text/javascript">
+		var game = new Demineur("body");
+
+		document.start = function() {
+			var x = document.querySelector("#nbrow").valueAsNumber,
+				y = document.querySelector("#nbcol").valueAsNumber,
+				n = document.querySelector("#nbbomb").valueAsNumber;
+			game.start(x, y, n);
+		}
+
+	</script>
 </body>
 
 </html>
